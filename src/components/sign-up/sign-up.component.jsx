@@ -37,7 +37,7 @@ class SingnUp extends React.Component {
                     confirmPassword  :''
                 })
             } catch (error){
-                console.log(error);
+                console.log(error+"COming in error");
             }
     }
 
