@@ -11,6 +11,14 @@ const config = {
     messagingSenderId: "112138086895",
     appId: "1:112138086895:web:308e306cd908f2e4ce6e1a",
     measurementId: "G-XVW9L75CX2"
+    // apiKey: "AIzaSyCewkwYPZ3qs4nv7MeK2-7vki--zENiutM",
+    // authDomain: "mdatabase-99525.firebaseapp.com",
+    // databaseURL: "https://mdatabase-99525.firebaseio.com",
+    // projectId: "mdatabase-99525",
+    // storageBucket: "mdatabase-99525.appspot.com",
+    // messagingSenderId: "940429097350",
+    // appId: "1:940429097350:web:36eab35ab63ca18a42d407",
+    // measurementId: "G-2YHL6HDYZ2"
 };
 
 firebase.initializeApp(config);
