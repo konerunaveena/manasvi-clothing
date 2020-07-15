@@ -1,5 +1,4 @@
 import  { createSelector } from 'reselect';
-import CartItem from '../../components/cart-item/cart-item.component';
 
 //input selector
 const selectCart = state =>state.cart;
