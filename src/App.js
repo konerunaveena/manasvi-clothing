@@ -5,16 +5,18 @@ import { createStructuredSelector } from 'reselect';
 
 import './App.css';
 import CardPage from './pages/card/cardpage.component';
+import SagaPage from "./pages/sagapage/sagapage.component";
 import HomePage from './pages/homepage/home.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import CheckOutPage from './pages/checkout/checkout.component';
 import Header from './components/header/header.component';
 
-import { auth, createUserProfileDocument, addCollectionAndItems } from './firebase/firebase-utils';
-import { setCurrentUser} from './redux/user/user.actions';
+import { addCollectionAndItems } from './firebase/firebase-utils';
+
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { selectCollectionsForPreview } from './redux/shop/shop.selector';
+import { checkUserSession } from "./redux/user/user.actions";
 
 class App extends React.Component {
 
@@ -23,20 +25,8 @@ class App extends React.Component {
 
   componentDidMount () {
 
-    const {setCurrentUser, collectionsArray} = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged (async userAuth => {
-      if(userAuth){
-        const userRef =  await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapShot =>{
-          setCurrentUser({
-              id : snapShot.id,
-              ...snapShot.data()
-            });
-        });
-      }
-      setCurrentUser(userAuth);
-    //  addCollectionAndItems('collections',collectionsArray.map(({title,items}) =>({title,items})));
-    });
+    const {collectionsArray, checkUserSession} = this.props;
+    checkUserSession();
   }
 
   componentWillUnmount () {
@@ -48,6 +38,7 @@ class App extends React.Component {
       <div>
         <Header></Header>
         <Switch>
+        <Route exact path='/saga' component ={SagaPage}></Route>
           <Route exact path='/card' component ={CardPage}></Route>
           <Route exact path='/' component ={HomePage}></Route>
           <Route path='/shop' component ={ShopPage}></Route>
@@ -64,8 +55,8 @@ const mapStateToProps = createStructuredSelector({
   //collectionsArray : selectCollectionsForPreview
 });
 
-const mapDispatchToProps = dispatch =>({
-  setCurrentUser : user =>dispatch(setCurrentUser(user))
-});
+const mapDispatchToProps = dispatch => ({
+  checkUserSession :  () => dispatch(checkUserSession())
+})
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
